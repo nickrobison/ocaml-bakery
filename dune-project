@@ -15,10 +15,12 @@
   (depends
     (dune (> 1.5))
     (alcotest :with_test)
+    (crowbar :with_test)
     (ocaml (> 4.07))))
 
 (package
   (name libmacaroons)
   (synopsis "OCaml bindings to libmacaroons")
   (depends
-    ctypes))
+    ctypes
+    (base64 :with_test)))

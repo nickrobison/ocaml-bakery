@@ -7,7 +7,6 @@ let encode arry =
   let ret_buffer = allocate_n char ~count:(input_length * 2) in
   let ret_sz = Unsigned.Size_t.of_int (input_length * 2) in
   let res = T.Base64.b64_ntop (CArray.start arry) (Unsigned.Size_t.of_int input_length) ret_buffer ret_sz in
-  print_endline ("Result: " ^ (string_of_int res));
   string_from_ptr ret_buffer ~length:res
 
 let decode str =

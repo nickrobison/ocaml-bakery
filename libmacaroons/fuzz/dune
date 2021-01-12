@@ -1,0 +1,3 @@
+(executable
+ (name libmacaroons_fuzz)
+  (libraries crowbar libmacaroons base64))

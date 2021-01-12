@@ -10,6 +10,7 @@ bug-reports: "https://github.com/nickrobison-usds/ocaml-bakery/issues"
 depends: [
   "dune" {>= "2.7"}
   "ctypes"
+  "base64" {with_test}
   "odoc" {with-doc}
 ]
 build: [
