@@ -1,4 +1,5 @@
+open Ctypes
 
-val b64_to_string: string -> string
+val encode: Unsigned.uchar carray -> string
 
-val b64_of_string: string -> string
+val decode: string -> Unsigned.uchar carray

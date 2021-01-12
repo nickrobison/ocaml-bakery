@@ -14,10 +14,11 @@ struct
 
   module Base64 = struct
 
-    let b64_ntop = foreign "b64_ntop"C.(string @-> string_opt @-> returning int)
+    let b64_ntop = foreign "b64_ntop"
+        C.(const (ptr uchar) @-> size_t @-> ptr char @-> size_t @-> returning int)
 
     let b64_pton = foreign "b64_pton"
-        C.(const (ptr uchar)
+        C.(const string
          @-> ptr uchar
          @-> size_t
          @-> returning int)

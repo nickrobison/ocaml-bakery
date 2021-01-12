@@ -1,3 +1,5 @@
 let v () =
-  let b64 = Libmacaroons.b64_of_string "hello" in
-  Alcotest.(check string) "Should roundtrip ok" b64 (Libmacaroons.b64_to_string b64)
+  let input = "aGVsbG8gdGhlcmUK" in
+  let res = Libmacaroons.decode input in
+  Alcotest.(check int) "Should be equal" 12 (Ctypes.CArray.length res);
+  Alcotest.(check string) "Should be equal" input (Libmacaroons.encode res)

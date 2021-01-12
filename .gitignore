@@ -1,3 +1,4 @@
 *.el
 _build/
 _opam/
+*.merlin

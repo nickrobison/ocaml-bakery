@@ -5,7 +5,7 @@ B /Users/RAAC/Development/ocaml-bakery/_opam/lib/integers
 B /Users/RAAC/Development/ocaml-bakery/_opam/lib/ocaml
 B ../../../_build/default/libmacaroons/ffi/bindings/.libmacaroons_bindings.objs/byte
 B ../../../_build/default/libmacaroons/ffi/lib/.libmacaroons_ffi.objs/byte
-B ../../../_build/default/libmacaroons/vendor/.libmacaroons_c.objs/byte
+B ../../../_build/default/libmacaroons/vendor/.macaroons_c.objs/byte
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/bytes
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/ctypes
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/integers

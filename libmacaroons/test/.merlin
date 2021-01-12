@@ -18,7 +18,7 @@ B ../../_build/default/libmacaroons/ffi/bindings/.libmacaroons_bindings.objs/byt
 B ../../_build/default/libmacaroons/ffi/lib/.libmacaroons_ffi.objs/byte
 B ../../_build/default/libmacaroons/lib/.libmacaroons.objs/byte
 B ../../_build/default/libmacaroons/test/.test.eobjs/byte
-B ../../_build/default/libmacaroons/vendor/.libmacaroons_c.objs/byte
+B ../../_build/default/libmacaroons/vendor/.macaroons_c.objs/byte
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/alcotest
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/alcotest/engine
 S /Users/RAAC/Development/ocaml-bakery/_opam/lib/astring
