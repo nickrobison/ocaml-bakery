@@ -1,0 +1,15 @@
+(library
+ (name libmacaroons_ffi)
+ (public_name libmacaroons.ffi)
+ (modules g m)
+ (libraries libmacaroons.bindings ctypes.stubs ctypes libmacaroons.c))
+
+(rule
+ (targets g.ml)
+ (deps ../stubgen/ffi_stubgen.exe)
+ (action (with-stdout-to %{targets} (run %{deps} -ml))))
+
+(rule
+ (targets libmacaroons_stubs.c)
+ (deps (:stubgen ../stubgen/ffi_stubgen.exe) ../vendor/macaroons.h)
+ (action (with-stdout-to %{targets} (run %{stubgen} -c))))

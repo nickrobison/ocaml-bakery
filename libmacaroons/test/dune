@@ -1,0 +1,4 @@
+(test
+ (name test)
+ (libraries libmacaroons alcotest)
+ (deps (source_tree bakery)))
