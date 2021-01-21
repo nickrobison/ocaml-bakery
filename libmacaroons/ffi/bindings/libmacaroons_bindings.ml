@@ -1,3 +1,4 @@
+module T = Libmacaroons_types.M
 
 module M(F: Ctypes.FOREIGN) =
 struct
@@ -12,6 +13,11 @@ struct
     let returning = F.returning
   end
 
+  module Macaroon = struct
+    type t = unit C.ptr
+    let t: t C.typ = C.ptr C.void
+  end
+
   module Base64 = struct
 
     let b64_ntop = foreign "b64_ntop"
@@ -23,6 +29,9 @@ struct
          @-> size_t
          @-> returning int)
   end
+
+  let macaroon_deserialize =
+    foreign "macaroon_deserialize" C.(const (ptr uchar) @-> size_t @-> (ptr T.return_code) @-> returning Macaroon.t)
 
 
 end

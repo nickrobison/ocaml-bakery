@@ -1,0 +1,14 @@
+(executable
+ (name ffi_types_stubgen)
+ (modules ffi_types_stubgen)
+ (libraries libmacaroons.bindings.types ctypes.stubs ctypes))
+
+(rule
+ (targets ffi_ml_types_stubgen.c)
+ (deps ./ffi_types_stubgen.exe)
+ (action (with-stdout-to %{targets} (run %{deps}))))
+
+(rule
+ (targets ffi_ml_types_stubgen.exe)
+ (deps (:c ./ffi_ml_types_stubgen.c) ../../vendor/macaroons_c.a)
+ (action (run %{cc} %{c} -I../../vendor %{read-lines:../../config/ctypes-cflags} -I %{ocaml_where} -o %{targets})))

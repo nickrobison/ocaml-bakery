@@ -14,6 +14,7 @@
   (synopsis "")
   (depends
     (dune (> 1.5))
+    dune-configurator
     (alcotest :with_test)
     (crowbar :with_test)
     (ocaml (> 4.07))))

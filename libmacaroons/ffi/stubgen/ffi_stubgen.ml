@@ -1,8 +1,8 @@
 let prefix = "libmacaroons_c_stubs"
 
 let prologue = "
-  #include <macaroons.h>
-  #include <base64.h>
+#include <macaroons.h>
+#include <base64.h>
 "
 
 

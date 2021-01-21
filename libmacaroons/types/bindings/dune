@@ -1,0 +1,4 @@
+(library
+ (name libmacaroons_bindings_types)
+ (public_name libmacaroons.bindings.types)
+ (libraries ctypes.stubs ctypes))

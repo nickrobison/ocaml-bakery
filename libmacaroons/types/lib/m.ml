@@ -1,0 +1,2 @@
+include Libmacaroons_bindings_types
+include Libmacaroons_bindings_types.M(G)

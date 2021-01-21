@@ -1,4 +1,4 @@
 (executable
  (name ffi_stubgen)
  (modules ffi_stubgen)
- (libraries libmacaroons_bindings ctypes ctypes.stubs))
+ (libraries libmacaroons.bindings libmacaroons.types ctypes ctypes.stubs))
