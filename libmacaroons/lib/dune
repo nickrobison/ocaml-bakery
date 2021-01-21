@@ -1,4 +1,4 @@
 (library
  (name libmacaroons)
  (public_name libmacaroons)
- (libraries libmacaroons.ffi ctypes))
+ (libraries libmacaroons.ffi ctypes libmacaroons.types))

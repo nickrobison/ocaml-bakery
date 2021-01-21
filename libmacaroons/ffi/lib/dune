@@ -3,7 +3,7 @@
  (public_name libmacaroons.ffi)
  (modules g m)
  (foreign_stubs (language c) (names libmacaroons_c_stubs))
- (libraries libmacaroons.bindings ctypes.stubs ctypes libmacaroons.c))
+ (libraries libmacaroons.bindings libmacaroons.types ctypes.stubs ctypes libmacaroons.c))
 
 (rule
  (targets g.ml)
