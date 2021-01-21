@@ -4,6 +4,8 @@ module T = Libmacaroons_types.M
 
 module Macaroon: sig
   type t
+
+  val valid: t -> bool
 end
 
 val encode: Unsigned.uchar carray -> string

@@ -4,6 +4,11 @@ module T = Libmacaroons_types.M
 
 module Macaroon = struct
   type t = M.Macaroon.t
+
+  let valid t =
+    match M.validate t with
+    | 0 -> true
+    | _ -> false
 end
 
 let with_error_code fn =
@@ -30,4 +35,9 @@ let deserialize str =
   let arry = decode str in
   let input_length = CArray.length arry |> Unsigned.Size_t.of_int in
   let ptr = CArray.start arry in
-  with_error_code @@ M.macaroon_deserialize ptr input_length
+  let res = with_error_code @@ M.macaroon_deserialize ptr input_length in
+  match res with
+  | Ok m ->
+    Gc.finalise (fun m -> M.destroy m) m;
+    Ok m
+  | Error e -> Error e

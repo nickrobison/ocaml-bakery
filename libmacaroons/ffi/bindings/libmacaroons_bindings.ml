@@ -30,6 +30,15 @@ struct
          @-> returning int)
   end
 
+  (*Macaroon management methods *)
+  let destroy =
+    foreign "macaroon_destroy" C.(Macaroon.t @-> returning void)
+
+  let validate =
+    foreign "macaroon_validate" C.(Macaroon.t @-> returning int)
+
+
+  (* Serialize/Deserialize *)
   let macaroon_deserialize =
     foreign "macaroon_deserialize" C.(const (ptr uchar) @-> size_t @-> (ptr T.return_code) @-> returning Macaroon.t)
 
