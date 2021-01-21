@@ -18,6 +18,11 @@ struct
     let t: t C.typ = C.ptr C.void
   end
 
+  module Verifier = struct
+    type t = unit C.ptr
+    let t: t C.typ = C.ptr C.void
+  end
+
   module Base64 = struct
 
     let b64_ntop = foreign "b64_ntop"
@@ -30,12 +35,31 @@ struct
          @-> returning int)
   end
 
-  (*Macaroon management methods *)
+  (* Macaroon management methods *)
   let destroy =
     foreign "macaroon_destroy" C.(Macaroon.t @-> returning void)
 
   let validate =
     foreign "macaroon_validate" C.(Macaroon.t @-> returning int)
+
+  let location =
+    foreign "macaroon_location" C.(Macaroon.t @-> ptr (ptr char) @-> ptr size_t @-> returning void)
+
+  let identifier =
+    foreign "macaroon_identifier" C.(Macaroon.t @-> ptr (ptr char) @-> ptr size_t @-> returning void)
+
+  let signature = foreign "macaroon_signature" C.(Macaroon.t @-> ptr (ptr char) @-> ptr size_t @-> returning void)
+
+  (* Verifier methods *)
+
+  let verifier_create =
+    foreign "macaroon_verifier_create" C.(void @-> returning Verifier.t)
+
+  let verifier_destroy =
+    foreign "macaroon_verifier_destroy" C.(Verifier.t @-> returning void)
+
+  let verify_macaroon =
+    foreign "macaroon_verify" C.(const Verifier.t @-> const Macaroon.t @-> const (ptr char) @-> size_t @-> ptr Macaroon.t @-> size_t @-> (ptr T.return_code) @-> returning int)
 
 
   (* Serialize/Deserialize *)
