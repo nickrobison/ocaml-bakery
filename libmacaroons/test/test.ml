@@ -5,5 +5,6 @@ let () =
     "base64", [
       test_case "Base64" `Quick Test_b64.v
     ];
-    Test_verifier.v
+    Test_rename.v;
+    Test_verifier.v;
   ]
