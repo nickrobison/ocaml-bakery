@@ -1,11 +1,9 @@
 module L = Libmacaroons
 
-module T = Libmacaroons_types
-
 let add_caveat v caveat =
   match L.Verifier.satisfy_exact v caveat with
   | Ok _-> ()
-  | Error _ -> Alcotest.fail "Could not add caveat"
+  | Error e -> Alcotest.fail ("Could not add caveat" ^ L.Utils.return_code_to_message e)
 
 
 (** Simple test of a Macaroon with an exact caveat verified with the correct root key and verifier *)
