@@ -1,3 +1,3 @@
 let unwrap_ok = function
   | Ok r -> r
-  | Error _e -> Alcotest.fail "Unexpected failure"
+  | Error e -> Alcotest.fail ("Unexpected failure" ^ (Libmacaroons.Utils.return_code_to_message e))

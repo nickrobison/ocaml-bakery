@@ -3,7 +3,7 @@ module T = Libmacaroons_types.M
 
 type t = M.Macaroon.t
 
-val deserialize: string -> (t, T.return_code) result
+val deserialize: string -> (t, T.ReturnCode.t) result
 
 val valid: t -> bool
 

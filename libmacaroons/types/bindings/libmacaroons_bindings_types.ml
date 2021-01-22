@@ -1,3 +1,10 @@
+
+module ReturnCode = struct
+  type t = [`Success | `Oom | `Invalid | `Not_Authorized | `E of string]
+end
+
+
+
 type return_code = SUCCESS | OOM | INVALID | NOT_AUTHORIZED
 
 let return_code_of_string = function
@@ -15,15 +22,15 @@ let string_of_return_code = function
 
 module M(F: Ctypes.TYPE) = struct
 
-  let success= F.constant "MACAROON_SUCCESS" F.int64_t
-  let oom = F.constant "MACAROON_OUT_OF_MEMORY" F.int64_t
-  let invalid = F.constant "MACAROON_INVALID" F.int64_t
-  let unauthorized = F.constant "MACAROON_NOT_AUTHORIZED" F.int64_t
+  let enum typedef vals =
+    F.enum ~unexpected:(fun i -> `E (Printf.sprintf "Unexpected error code: %d" (Int64.to_int i))) typedef
+      (List.map (fun (a,b) -> a, (F.constant ("MACAROON_"^b) F.int64_t)) vals)
 
-  let return_code = F.enum "macaroon_returncode" [
-      SUCCESS, success;
-      OOM, oom;
-      INVALID, invalid;
-      NOT_AUTHORIZED, unauthorized;
-    ] ~unexpected:(fun code -> raise (Invalid_argument (Printf.sprintf "Unexpected error code %d" (Int64.to_int code))))
+  let return_code: ReturnCode.t F.typ =
+    enum "macaroon_returncode" [
+      `Success, "SUCCESS";
+      `Oom, "OUT_OF_MEMORY";
+      `Invalid, "INVALID";
+      `Not_Authorized, "NOT_AUTHORIZED";
+    ]
 end

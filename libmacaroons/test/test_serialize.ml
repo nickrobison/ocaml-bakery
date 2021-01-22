@@ -13,7 +13,7 @@ let invalid_deser () =
   match L.Macaroon.deserialize str with
   | Ok _ -> Alcotest.fail "Should not deserialize"
   | Error e -> match e with
-    | INVALID -> ()
+    | `Invalid -> ()
     | _ -> Alcotest.fail" Should be invalid"
 
 
