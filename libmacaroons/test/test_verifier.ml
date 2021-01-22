@@ -1,7 +1,5 @@
 module L = Libmacaroons
 
-module T = Libmacaroons_types
-
 let add_caveat v caveat =
   match L.Verifier.satisfy_exact v caveat with
   | Ok _-> ()
