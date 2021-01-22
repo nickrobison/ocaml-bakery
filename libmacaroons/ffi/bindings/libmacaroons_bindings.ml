@@ -61,6 +61,9 @@ struct
   let verify_macaroon =
     foreign "macaroon_verify" C.(const Verifier.t @-> const Macaroon.t @-> const (ptr char) @-> size_t @-> ptr Macaroon.t @-> size_t @-> (ptr T.return_code) @-> returning int)
 
+  let verify_add_exact =
+    foreign "macaroon_verifier_satisfy_exact" C.(Verifier.t @-> const (ptr char) @-> size_t @-> (ptr T.return_code) @-> returning int)
+
 
   (* Serialize/Deserialize *)
   let macaroon_deserialize =
