@@ -6,5 +6,5 @@ let () =
       test_case "Base64" `Quick Test_b64.v
     ];
     Test_serialize.v;
-    Test_verifier.v;
+    Test_verifier_v1.v;
   ]
