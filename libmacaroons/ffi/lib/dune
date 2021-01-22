@@ -2,7 +2,8 @@
  (name libmacaroons_ffi)
  (public_name libmacaroons.ffi)
  (modules g m)
- (foreign_stubs (language c) (names libmacaroons_c_stubs))
+ (foreign_stubs (language c) (names macaroons_stubs))
+ (foreign_archives ../../vendor/macaroons)
  (libraries libmacaroons.bindings libmacaroons.types ctypes.stubs ctypes libmacaroons.c))
 
 (rule
@@ -11,7 +12,7 @@
  (action (with-stdout-to %{targets} (run %{deps} -ml))))
 
 (rule
- (targets libmacaroons_c_stubs.c)
+ (targets macaroons_stubs.c)
  (deps ../stubgen/ffi_stubgen.exe)
  (action (with-stdout-to %{targets} (run %{deps} -c))))
 
