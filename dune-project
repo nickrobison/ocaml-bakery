@@ -15,8 +15,8 @@
   (depends
     (dune (> 1.5))
     dune-configurator
-    (alcotest :with_test)
-    (crowbar :with_test)
+    (alcotest :with-test)
+    (crowbar :with-test)
     (ocaml (> 4.07))))
 
 (package
@@ -24,4 +24,7 @@
   (synopsis "OCaml bindings to libmacaroons")
   (depends
     ctypes
-    (base64 :with_test)))
+    (base64 :with-test)
+    (alcotest :with-test)
+    (crowbar :with-test)
+    (ocaml (> 4.07))))
