@@ -5,14 +5,24 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+        ocaml-version:
+          - 4.08.1
+          - 4.11.1
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Use OCaml 4.08.1
+      - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
         with:
-          ocaml-version: 4.08.1
+          ocaml-version: ${{ matrix.ocaml-version }}
       - run: opam pin add libmacaroons.dev . --no-action
       - run: opam depext libmacaroons --with-doc --with-test
       - run: opam install . --deps-only --with-doc --with-test
