@@ -1,0 +1,68 @@
+(library
+ (name macaroons_c)
+ (public_name libmacaroons.c)
+ (flags :standard))
+
+(rule
+ (targets libmacaroons%{ext_lib} dllmacaroons%{ext_dll})
+ (deps   macaroons.o base64.o slice.o v1.o v2.o packet.o varint.o explicit_bzero.o sha256.o tweetnacl.o port.o)
+ (action (run ocamlmklib -o macaroons %{deps})))
+
+
+(rule
+ (targets macaroons.o)
+ (deps    (:c macaroons.c) macaroons.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets base64.o)
+ (deps    (:c base64.c) base64.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets slice.o)
+ (deps    (:c slice.c) slice.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets v1.o)
+ (deps    (:c v1.c) v1.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets v2.o)
+ (deps    (:c v2.c) v2.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets packet.o)
+ (deps    (:c packet.c) packet.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+
+(rule
+ (targets varint.o)
+ (deps    (:c varint.c) varint.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets explicit_bzero.o)
+ (deps    (:c explicit_bzero.c))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets sha256.o)
+ (deps    (:c sha256.c) sha256.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets tweetnacl.o)
+ (deps    (:c tweetnacl.c) tweetnacl.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+(rule
+ (targets port.o)
+ (deps    (:c port.c) port.h)
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
+
