@@ -17,7 +17,7 @@ depends: [
   "odoc" {with-doc}
 ]
 depexts: [
-  ["libutil-dev"] {os-family = "debian"}
+  ["libbsd-dev"] {os-family = "debian"}
 ]
 build: [
   ["dune" "subst"] {dev}
