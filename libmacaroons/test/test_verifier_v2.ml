@@ -44,5 +44,4 @@ let v =
     test_case "caveat_v2_4" `Quick caveat_v2_4;
     test_case "caveat_v2_5" `Quick caveat_v2_5;
     test_case "caveat_v2_6" `Quick caveat_v2_6;
-
   ]

@@ -26,9 +26,9 @@ let assert_unauthorized = function
   | Error e -> expect_variant "Should be unauthorized" `Not_Authorized e
 
 (** Helper function to deserialize a macaroon and verify it with the default root key*)
-let verify_macaroon v str =
+let verify_macaroon v str k =
   let m = unwrap_ok @@ Macaroon.deserialize str in
-  Verifier.verify v m "this is the key"
+  Verifier.verify v m k
 
 (** Assert that the result of a macaroon verification is authorized*)
 let assert_authorized = function
@@ -38,4 +38,4 @@ let assert_authorized = function
 (** Run libmacaroons verification test*)
 let verifier_test m caveats fn =
   let v = List.fold_left (fun v c -> add_caveat v c; v) (Verifier.create ()) caveats in
-  fn (verify_macaroon v m)
+  fn (verify_macaroon v m "this is the key")
