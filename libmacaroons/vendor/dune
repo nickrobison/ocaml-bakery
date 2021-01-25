@@ -5,9 +5,8 @@
 
 (rule
  (targets libmacaroons%{ext_lib} dllmacaroons%{ext_dll})
- (deps   macaroons.o base64.o slice.o v1.o v2.o packet.o varint.o explicit_bzero.o sha256.o tweetnacl.o port.o)
+ (deps   macaroons.o base64.o slice.o v1.o v2.o packet.o varint.o explicit_bzero.o sha256.o tweetnacl.o port.o timingsafe_bcmp.o)
  (action (run ocamlmklib %{read-lines:../config/c_library_flags} -o macaroons %{deps})))
-
 
 (rule
  (targets macaroons.o)
@@ -64,5 +63,11 @@
  (targets port.o)
  (deps    (:c port.c) port.h)
  (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
+
+(rule
+ (targets timingsafe_bcmp.o)
+ (deps    (:c timingsafe_bcmp.c))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+
 
 
