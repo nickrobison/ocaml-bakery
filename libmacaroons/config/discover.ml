@@ -68,6 +68,6 @@ let () =
       let link_flags = link_flags c in
       C.Flags.write_lines "cflags" lines;
       C.Flags.write_lines "ctypes-cflags" [cstubs_cflags];
-      C.Flags.write_lines "c_library_flags" link_flags;
+      C.Flags.write_sexp "c_library_flags.sexp" link_flags;
       define_constants c;
     )

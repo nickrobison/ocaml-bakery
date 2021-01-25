@@ -4,6 +4,7 @@
  (modules g m)
  (foreign_stubs (language c) (names macaroons_stubs))
  (foreign_archives ../../vendor/macaroons)
+ (c_library_flags (:include ../../config/c_library_flags.sexp))
  (libraries libmacaroons.bindings libmacaroons.types ctypes.stubs ctypes libmacaroons.c))
 
 (rule
