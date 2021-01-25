@@ -12,12 +12,12 @@
 (rule
  (targets macaroons.o)
  (deps    (:c macaroons.c) macaroons.h)
- (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
 
 (rule
  (targets base64.o)
  (deps    (:c base64.c) base64.h)
- (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
 
 (rule
  (targets slice.o)
@@ -37,7 +37,7 @@
 (rule
  (targets packet.o)
  (deps    (:c packet.c) packet.h)
- (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
 
 
 (rule
@@ -58,11 +58,11 @@
 (rule
  (targets tweetnacl.o)
  (deps    (:c tweetnacl.c) tweetnacl.h)
- (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
 
 (rule
  (targets port.o)
  (deps    (:c port.c) port.h)
- (action  (run %{cc} %{read-lines:../config/cflags} -I. -c %{c})))
+ (action  (run %{cc} %{read-lines:../config/cflags} -I. -I../config -c %{c})))
 
 
