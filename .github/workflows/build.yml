@@ -1,0 +1,20 @@
+name: Build and Test
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use OCaml 4.08.1
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: 4.08.1
+      - run: opam pin add libmacaroons.dev . --no-action
+      - run: opam depext libmacaroons --with-doc --with-test
+      - run: opam install . --deps-only --with-doc --with-test
+      - run: opam exec -- dune build
+      - run: opam exec -- dune runtest
