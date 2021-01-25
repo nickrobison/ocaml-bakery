@@ -4,6 +4,7 @@ let ocamlopt_lines c =
   let cflags =
     try C.ocaml_config_var_exn c "ocamlopt_cflags"
     with _ -> "-O3 -fno-strict-aliasing -fwrapv" in
+  let cflags = cflags ^ " -msse4.1" in
   C.Flags.extract_blank_separated_words cflags
 
 let libutil_lines c =
