@@ -1,15 +1,9 @@
 open Ctypes
-
 module T = Libmacaroons_types.M
-
-module Macaroon: sig
-  type t
-
-  val valid: t -> bool
-end
+module M = Libmacaroons_ffi.M
 
 val encode: Unsigned.uchar carray -> string
 
 val decode: string -> Unsigned.uchar carray
 
-val deserialize: string -> (Macaroon.t, T.return_code) result
+val deserialize: string -> (M.Macaroon.t, T.ReturnCode.t) result

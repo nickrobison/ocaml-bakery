@@ -19,7 +19,7 @@ let deserialize str =
   let arry = decode str in
   let input_length = CArray.length arry |> Unsigned.Size_t.of_int in
   let ptr = CArray.start arry in
-  let res = with_error_code @@ M.macaroon_deserialize ptr input_length in
+  let res = Utils.with_error_code @@ M.macaroon_deserialize ptr input_length in
   match res with
   | Ok m ->
     Gc.finalise (fun m -> M.destroy m) m;
