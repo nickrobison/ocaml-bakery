@@ -16,6 +16,9 @@ depends: [
   "ocaml" {> "4.07"}
   "odoc" {with-doc}
 ]
+depexts: [
+  ["libutil-dev"] {os-family = "debian"}
+]
 build: [
   ["dune" "subst"] {dev}
   [
