@@ -15,8 +15,8 @@ let b64 =
       | Error _ -> (bad_test ()))
 
 let to_from orig =
-  let encoded = Libmacaroons.decode orig in
-  Libmacaroons.encode encoded
+  let encoded = Libmacaroons.Base64.decode orig in
+  Libmacaroons.Base64.encode encoded
 
 
 

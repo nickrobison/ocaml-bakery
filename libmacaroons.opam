@@ -10,8 +10,14 @@ bug-reports: "https://github.com/nickrobison-usds/ocaml-bakery/issues"
 depends: [
   "dune" {>= "2.7"}
   "ctypes"
-  "base64" {with_test}
+  "base64" {with-test}
+  "alcotest" {with-test}
+  "crowbar" {with-test}
+  "ocaml" {> "4.07"}
   "odoc" {with-doc}
+]
+depexts: [
+  ["libbsd-dev"] {os-family = "debian"}
 ]
 build: [
   ["dune" "subst"] {dev}

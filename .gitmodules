@@ -1,3 +1,0 @@
-[submodule "libmacaroons/vendor"]
-	path = libmacaroons/vendor
-	url = ../libmacaroons

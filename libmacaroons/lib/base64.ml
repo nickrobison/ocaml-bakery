@@ -1,4 +1,5 @@
 open Ctypes
+module T = Libmacaroons_types.M
 module M = Libmacaroons_ffi.M
 
 let encode arry =
@@ -13,3 +14,14 @@ let decode str =
   let ret_buffer = allocate_n uchar ~count:(String.length str) in
   let res = M.Base64.b64_pton str ret_buffer ret_sz in
   CArray.from_ptr ret_buffer res
+
+let deserialize str =
+  let arry = decode str in
+  let input_length = CArray.length arry |> Unsigned.Size_t.of_int in
+  let ptr = CArray.start arry in
+  let res = Utils.with_error_code @@ M.macaroon_deserialize ptr input_length in
+  match res with
+  | Ok m ->
+    Gc.finalise (fun m -> M.destroy m) m;
+    Ok m
+  | Error e -> Error e

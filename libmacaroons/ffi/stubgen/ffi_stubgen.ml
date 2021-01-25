@@ -1,4 +1,4 @@
-let prefix = "libmacaroons_c_stubs"
+let prefix = "macaroons_stubs"
 
 let prologue = "
 #include <macaroons.h>
