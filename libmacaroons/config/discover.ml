@@ -11,7 +11,7 @@ let libutil_lines c =
   let system = C.ocaml_config_var_exn c "system" in
   match system with
   | "macosx" -> ["-DHAVE_OSX_LIBUTIL_H"]
-  | "linux" -> ["-DHAVE_LIBUTIL_H"]
+  | "linux" -> ["-DHAVE_BSD_LIBUTIL_H"]
   | s -> raise (Invalid_argument (Printf.sprintf "Unsupported system: %s" s))
 
 let () =
