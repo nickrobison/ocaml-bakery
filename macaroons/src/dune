@@ -1,0 +1,3 @@
+(library
+ (name bakery_macaroons)
+ (public_name bakery.macaroons))
