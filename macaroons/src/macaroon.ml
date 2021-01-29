@@ -2,7 +2,7 @@
 type t = {
   id: string;
   location: string;
-  caveats: string list;
+  caveats: Caveat.t list;
   signature: Cstruct.t;
 }
 
@@ -11,9 +11,9 @@ let seq_to_int_str seq =
   |> Seq.fold_left (fun str c -> str ^ " " ^ (Int.to_string c)) ""
 
 let _cstr_to_int_str cstr =
-    Cstruct.to_bytes cstr
-    |> Bytes.to_seq
-    |> seq_to_int_str
+  Cstruct.to_bytes cstr
+  |> Bytes.to_seq
+  |> seq_to_int_str
 
 let macaroons_magic_key = Cstruct.of_string "macaroons-key-generator"
 
@@ -45,3 +45,11 @@ let signature {signature; _} =
   let h = Hex.of_cstruct signature in
   match h with
   | `Hex s -> s
+
+let num_caveats t = List.length t.caveats
+
+let add_first_party_caveat t cav =
+  let module H = Nocrypto.Hash.SHA256 in
+  let b = Caveat.to_cstruct cav in
+  let signature = hmac t.signature b in
+  {t with caveats = t.caveats @ [cav]; signature}
