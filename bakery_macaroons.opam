@@ -12,6 +12,8 @@ depends: [
   "base64"
   "nocrypto"
   "hex"
+  "faraday"
+  "varint"
   "alcotest" {with-test}
   "crowbar" {with-test}
   "ocaml" {> "4.07"}

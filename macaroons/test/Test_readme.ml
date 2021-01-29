@@ -6,10 +6,12 @@ let t1 () =
   Alcotest.(check string) "Should have correct location" "http://mybank/" (Macaroon.location m);
   Alcotest.(check int) "Should have no caveats" 0 (Macaroon.num_caveats m);
   Alcotest.(check string) "Should have correct signature" "e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f" (Macaroon.signature m);
+  Alcotest.(check string) "Should serialize with no caveats" "MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMjZpZGVudGlmaWVyIHdlIHVzZWQgb3VyIHNlY3JldCBrZXkKMDAyZnNpZ25hdHVyZSDj2eApCFJsTAA5rhURQRXZf91ovyujebNCqvD2F9BVLwo" (Macaroon.serialize m Macaroon.V1);
 
   let m2 = Macaroon.add_first_party_caveat m (Caveat.create "account = 3735928559") in
   Alcotest.(check int) "Should have a single caveat" 1 (Macaroon.num_caveats m2);
   Alcotest.(check string) "Should have new signature" "1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128" (Macaroon.signature m2);
+  Alcotest.(check string) "Should serialize with a single caveat" "MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMjZpZGVudGlmaWVyIHdlIHVzZWQgb3VyIHNlY3JldCBrZXkKMDAxZGNpZCBhY2NvdW50ID0gMzczNTkyODU1OQowMDJmc2lnbmF0dXJlIB7-R2PykNvODB0IR3Nn4R9O7kVqZJM89mLXl3LbuCEoCg" (Macaroon.serialize m2 Macaroon.V1);
 
   (* Add 2 more caveats *)
   let cavs = List.map (fun s -> Caveat.create s) [
