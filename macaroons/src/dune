@@ -1,3 +1,4 @@
 (library
  (name bakery_macaroons)
- (public_name bakery.macaroons))
+ (public_name bakery.macaroons)
+ (libraries nocrypto base64 hex))
