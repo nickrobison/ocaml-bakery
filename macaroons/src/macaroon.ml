@@ -1,12 +1,22 @@
+module Cstruct = struct
+  include Cstruct
+
+  let pp f t =
+    Fmt.pf f "%s" (Cstruct.to_string t)
+end
+
+
 
 type t = {
   id: string;
   location: string;
   caveats: Caveat.t list;
   signature: Cstruct.t;
-}
+} [@@deriving eq, show]
 
 type macaroon_format = | V1 | V2 | V2J
+
+type identifier = | Location of string | Identifier of string | Signature of Cstruct.t | Cid of string
 
 
 (*Serializer stuff*)
@@ -57,9 +67,49 @@ let serialize m =
   write_packet t "signature" (Cstruct.to_bytes m.signature);
   serialize_to_string t
 
+(* Parser stuff *)
+
+let parse_packet packet =
+  match packet with
+  | _, k, v ->
+    match k with
+    | "identifier" -> (Identifier v)
+    | "location" -> (Location v)
+    | "signature" -> (Signature (Cstruct.of_string v))
+    | "cid" -> (Cid v)
+    | _s -> raise (Invalid_argument "note")
+
+let make_from_packets packets =
+  List.fold_left (fun acc p ->
+      match p with
+      | Location l -> {acc with location = l}
+      | Signature s -> {acc with signature = s}
+      | Identifier i -> {acc with id = i}
+      | Cid s -> {acc with caveats = acc.caveats @ [(Caveat.create s)]}
+    ) {
+    id = "";
+    location = "";
+    caveats = [];
+    signature = Cstruct.empty;
+  } packets
+
+let deserialize_raw str =
+  print_endline str;
+  (* This is gross, but until my angstrom skills get better, I'm not sure how to have a terminating byte*)
+  let str = str ^ "\n" in
+  match Angstrom.(parse_string ~consume:All Parser_utils.m_v1 str) with
+  | Ok s -> let packets = List.map parse_packet s in
+    make_from_packets packets
+  | Error err ->
+    print_endline err;
+    raise (Invalid_argument "Can't with it, deser")
+
+
 let macaroons_magic_key = Cstruct.of_string "macaroons-key-generator"
 
 let b64_encode = Base64.encode_exn ?alphabet:(Some Base64.uri_safe_alphabet) ~pad:false
+
+let b64_decode = Base64.decode_exn ~alphabet:Base64.uri_safe_alphabet ~pad:false
 
 let hmac key msg =
   Nocrypto.Hash.SHA256.hmac ~key msg
@@ -104,3 +154,7 @@ let serialize t format =
   match format with
   | V1 -> serialize t |> b64_encode
   | _ -> raise (Invalid_argument "Cannot serialize to this, yet")
+
+let deserialize str =
+  b64_decode str
+  |> deserialize_raw

@@ -1,4 +1,4 @@
-type t
+type t [@@deriving eq, show]
 
 val create: string -> t
 

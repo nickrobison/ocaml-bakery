@@ -1,4 +1,4 @@
-type t = string
+type t = string [@@deriving eq, show]
 
 
 let create predicate = predicate
