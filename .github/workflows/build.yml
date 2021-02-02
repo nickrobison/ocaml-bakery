@@ -23,7 +23,9 @@ jobs:
         with:
           path: |
             ~/_opam
-          key: opam-${{ matrix.os }}-${{ matrix.ocaml-version }}
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ hashFiles('*.opam') }}
+          restore-keys: |
+             opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
         with:
