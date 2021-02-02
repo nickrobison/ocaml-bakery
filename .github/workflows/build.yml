@@ -18,6 +18,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Cache Opam
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/_opam
+          key: opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-${{ hashFiles('*.opam') }}
+          restore-keys: |
+             opam-${{ matrix.os }}-${{ matrix.ocaml-version }}-
       - name: Use OCaml ${{ matrix.ocaml-version }}
         uses: avsm/setup-ocaml@v1
         with:
