@@ -23,7 +23,8 @@ jobs:
         with:
           ocaml-version: ${{ matrix.ocaml-version }}
       - run: opam pin add libmacaroons.dev . --no-action
-      - run: opam depext libmacaroons --with-doc --with-test
+      - run: opam pin add bakery-macaroons.dev . --no-action
+      - run: opam depext libmacaroons bakery-macaroons --with-doc --with-test
       - run: opam install . --deps-only --with-doc --with-test
       - run: opam exec -- dune build
       - run: opam exec -- dune runtest
