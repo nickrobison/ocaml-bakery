@@ -104,27 +104,18 @@ let deserialize_raw str =
     print_endline err;
     raise (Invalid_argument "Can't with it, deser")
 
-
-let macaroons_magic_key = Cstruct.of_string "macaroons-key-generator"
-
 let b64_encode = Base64.encode_exn ?alphabet:(Some Base64.uri_safe_alphabet) ~pad:false
 
 let b64_decode = Base64.decode_exn ~alphabet:Base64.uri_safe_alphabet ~pad:false
 
-let hmac key msg =
-  Nocrypto.Hash.SHA256.hmac ~key msg
-
-(* Derives a new root key from [macaroons_magic_key] *)
-let derive_key = hmac macaroons_magic_key
-
 let create ~id ~location key =
   let key' = Cstruct.of_string key
-             |> derive_key in
+             |> Crypto.derive_key in
   {
     id;
     location;
     caveats = [];
-    signature = (hmac key' (Cstruct.of_string id));
+    signature = (Crypto.hmac key' (Cstruct.of_string id));
   }
 
 let identifier t =
@@ -146,9 +137,11 @@ let num_caveats t = List.length t.caveats
 let add_first_party_caveat t cav =
   let module H = Nocrypto.Hash.SHA256 in
   let b = Caveat.to_cstruct cav in
-  let signature = hmac t.signature b in
+  let signature = Crypto.hmac t.signature b in
   {t with caveats = t.caveats @ [cav]; signature}
 
+let caveats t =
+  t.caveats
 
 let serialize t format =
   match format with

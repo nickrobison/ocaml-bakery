@@ -11,3 +11,5 @@ let to_cstruct t =
 
 let to_bytes t =
   Bytes.of_string t
+
+let to_string t = t

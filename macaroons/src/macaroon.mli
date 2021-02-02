@@ -16,6 +16,8 @@ val num_caveats: t -> int
 
 val add_first_party_caveat: t -> Caveat.t -> t
 
+val caveats: t -> Caveat.t list
+
 val serialize: t -> macaroon_format -> string
 
 val deserialize: string -> t

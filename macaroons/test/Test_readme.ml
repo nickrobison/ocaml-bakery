@@ -1,9 +1,11 @@
 open Bakery_macaroons
 
+let key = "this is our super secret key; only we should know it"
+
 let macaroonTest = Alcotest.testable Macaroon.pp (fun l r -> Macaroon.equal l r)
 
 let t1 () =
-  let m = Macaroon.create ~id:"we used our secret key" ~location:"http://mybank/" "this is our super secret key; only we should know it" in
+  let m = Macaroon.create ~id:"we used our secret key" ~location:"http://mybank/" key in
   Alcotest.(check string) "Should have correct ID" "we used our secret key" (Macaroon.identifier m);
   Alcotest.(check string) "Should have correct location" "http://mybank/" (Macaroon.location m);
   Alcotest.(check int) "Should have no caveats" 0 (Macaroon.num_caveats m);
@@ -28,9 +30,24 @@ let t1 () =
   Alcotest.(check macaroonTest) "Should round trip ok" m3 (Macaroon.deserialize (Macaroon.serialize m3 Macaroon.V1))
 
 
+let verifier_tests () =
+  let m = Macaroon.create ~id:"we used our secret key" ~location:"http://mybank/" key
+  and v = Verifier.create () in
+  (match (Verifier.verify v m key) with
+   | Ok _ -> ()
+   | Error _e -> Alcotest.failf "Should be valid");
+  let m2 = Macaroon.add_first_party_caveat m (Caveat.create "account = 3735928559") in
+  (  match (Verifier.verify v m2 key) with
+     | Ok _ -> Alcotest.fail "Should not be valid"
+     | Error _ -> ());
+  let v = Verifier.add_first_party_caveat v "account = 3735928559" in
+  match (Verifier.verify v m2 key) with
+  | Ok _ -> ()
+  | Error e -> Alcotest.(check (list string)) "Should have correct failure message" [] e
 
 let v =
   let open Alcotest in
   "readme", [
     test_case "readme" `Quick t1;
+    test_case "verifier" `Quick verifier_tests;
   ]

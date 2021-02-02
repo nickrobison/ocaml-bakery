@@ -2,4 +2,4 @@
  (name bakery_macaroons)
  (public_name bakery.macaroons)
  (preprocess (pps ppx_deriving.eq ppx_deriving.show))
- (libraries nocrypto base64 hex faraday varint angstrom fmt))
+ (libraries nocrypto base64 hex faraday varint angstrom fmt eqaf.cstruct))
