@@ -15,6 +15,7 @@ depends: [
   "faraday"
   "varint"
   "angstrom"
+  "eqaf"
   "ppx_deriving"
   "alcotest" {with-test}
   "crowbar" {with-test}
