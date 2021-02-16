@@ -1,0 +1,15 @@
+kind: pipeline
+name: ARM64 Tests
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: build
+    image:  ocaml/opam:debian-ocaml-4.11
+    commands:
+      - opam pin add -n .
+      - opam depext libmacaroons bakery-macaroons --with-doc --with-test
+      - opam install -y -t --deps-only .
+      - opam exec --dune build @runtest
