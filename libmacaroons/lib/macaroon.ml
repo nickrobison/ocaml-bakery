@@ -14,11 +14,11 @@ let create ~id ~location key =
   let key' = CArray.of_string key in
   let res = Utils.with_error_code @@ M.macaroon_create
       (CArray.start loc)
-      (CArray.length loc |> Unsigned.Size_t.of_int)
+      ((CArray.length loc) - 1 |> Unsigned.Size_t.of_int)
       (CArray.start key')
-      (CArray.length key' |> Unsigned.Size_t.of_int)
+      ((CArray.length key') - 1|> Unsigned.Size_t.of_int)
       (CArray.start id')
-      (CArray.length id' |> Unsigned.Size_t.of_int)
+      ((CArray.length id') -1 |> Unsigned.Size_t.of_int)
   in
   match res with
   | Ok m -> m
@@ -33,7 +33,7 @@ let unwrap_string fn =
   let start = allocate (ptr char) (from_voidp char null) in
   let loc_sz = allocate size_t (Unsigned.Size_t.of_int 0) in
   fn start loc_sz;
-  string_from_ptr !@start ~length:((Unsigned.Size_t.to_int !@loc_sz) - 1)
+  string_from_ptr !@start ~length:((Unsigned.Size_t.to_int !@loc_sz))
 
 let deserialize str =
   let arry = Base64.decode str in
@@ -64,11 +64,18 @@ let pp _fmt _t =
   ()
 
 let equal _lhs _rhs =
-  true
+  false
 
 let num_caveats _t = 0
 
-let add_first_party_caveat t _cav = t
+let add_first_party_caveat t cav =
+  let predicate = CArray.of_string cav in
+  let res = Utils.with_error_code @@ M.macaroon_add_first_party t (CArray.start predicate) ((CArray.length predicate) - 1 |> Unsigned.Size_t.of_int) in
+  match res with
+  | Ok t ->
+    Gc.finalise (fun m -> M.destroy m) t;
+    t
+  | Error _ -> raise (Invalid_argument "error adding")
 
 let serialize t format =
   let fmt = match format with

@@ -54,6 +54,9 @@ struct
 
   let signature = foreign "macaroon_signature" C.(Macaroon.t @-> ptr (ptr char) @-> ptr size_t @-> returning void)
 
+  let macaroon_add_first_party =
+    foreign "macaroon_add_first_party_caveat" C.(const Macaroon.t @-> const (ptr char) @-> size_t @-> ptr T.return_code @-> returning Macaroon.t)
+
   (* Verifier methods *)
 
   let verifier_create =

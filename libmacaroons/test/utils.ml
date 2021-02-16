@@ -25,7 +25,7 @@ let assert_unauthorized = function
   | Ok _ -> Alcotest.fail "Should be unauthorized"
   | Error e -> match e with
     | `Not_authorized -> ()
-    | `Invalid -> Alcotest.fail "failed"
+    | `Invalid -> Alcotest.fail "Should be unauthorized, but was invalid instead"
 
 (** Helper function to deserialize a macaroon and verify it with the default root key*)
 let verify_macaroon v str k =
