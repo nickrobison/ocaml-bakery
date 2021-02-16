@@ -4,8 +4,8 @@ let valid = "TURBeU1XeHZZMkYwYVc5dUlHaDBkSEE2THk5bGVHRnRjR3hsTG05eVp5OEtNREF4Tld
 
 let valid_deser () =
   (match (L.Macaroon.deserialize valid) with
-  | Ok m -> Alcotest.(check bool) "Should be valid" true (L.Macaroon.valid m)
-  | Error _e -> Alcotest.fail "Problem deserializing")
+   | Ok m -> Alcotest.(check bool) "Should be valid" true (L.Macaroon.valid m)
+   | Error _e -> Alcotest.fail "Problem deserializing")
 
 
 let invalid_deser () =
@@ -13,15 +13,18 @@ let invalid_deser () =
   match L.Macaroon.deserialize str with
   | Ok _ -> Alcotest.fail "Should not deserialize"
   | Error e -> match e with
-    | `Invalid -> ()
+    | "Invalid" -> ()
     | _ -> Alcotest.fail" Should be invalid"
 
 
 let macaroon_getters () =
-  let m = Utils.unwrap_ok @@ L.Macaroon.deserialize valid in
-  Alcotest.(check string) "Should have correct location" "http://example.org/" (L.Macaroon.location m);
-  Alcotest.(check string) "Should have correct identifier" "keyid" (L.Macaroon.identifier m);
-  Alcotest.(check int) "Should have signature" 32 (String.length (L.Macaroon.signature m))
+  let deser = L.Macaroon.deserialize valid in
+  match deser with
+  | Ok m ->
+    Alcotest.(check string) "Should have correct location" "http://example.org/" (L.Macaroon.location m);
+    Alcotest.(check string) "Should have correct identifier" "keyid" (L.Macaroon.identifier m);
+    Alcotest.(check int) "Should have signature" 32 (String.length (L.Macaroon.signature m))
+  | Error e -> Alcotest.fail e
 
 
 let v =

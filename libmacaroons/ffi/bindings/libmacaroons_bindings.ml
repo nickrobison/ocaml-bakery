@@ -26,16 +26,20 @@ struct
   module Base64 = struct
 
     let b64_ntop = foreign "b64_ntop"
-        C.(const (ptr uchar) @-> size_t @-> ptr char @-> size_t @-> returning int)
+        C.(const (ptr char) @-> size_t @-> ptr char @-> size_t @-> returning int)
 
     let b64_pton = foreign "b64_pton"
         C.(const string
-         @-> ptr uchar
-         @-> size_t
-         @-> returning int)
+           @-> ptr char
+           @-> size_t
+           @-> returning int)
   end
 
   (* Macaroon management methods *)
+
+  let macaroon_create =
+    foreign "macaroon_create" C.(ptr char @-> size_t @-> ptr char @-> size_t @-> ptr char @-> size_t @-> ptr T.return_code @-> returning Macaroon.t)
+
   let destroy =
     foreign "macaroon_destroy" C.(Macaroon.t @-> returning void)
 
@@ -58,6 +62,15 @@ struct
   let verifier_destroy =
     foreign "macaroon_verifier_destroy" C.(Verifier.t @-> returning void)
 
+  let macaroon_equal =
+    foreign "macaroon_cmp" C.(Macaroon.t @-> Macaroon.t @-> returning int)
+
+  let macaroon_inspect_size =
+    foreign "macaroon_inspect_size_hint" C.(Macaroon.t @-> returning size_t)
+
+  let macaroon_inspect =
+    foreign "macaroon_inspect" C.(Macaroon.t @-> ptr char @-> size_t @-> ptr T.return_code @-> returning int)
+
   let verify_macaroon =
     foreign "macaroon_verify" C.(const Verifier.t @-> const Macaroon.t @-> const (ptr char) @-> size_t @-> ptr Macaroon.t @-> size_t @-> (ptr T.return_code) @-> returning int)
 
@@ -67,7 +80,18 @@ struct
 
   (* Serialize/Deserialize *)
   let macaroon_deserialize =
-    foreign "macaroon_deserialize" C.(const (ptr uchar) @-> size_t @-> (ptr T.return_code) @-> returning Macaroon.t)
+    foreign "macaroon_deserialize" C.(const (ptr char) @-> size_t @-> (ptr T.return_code) @-> returning Macaroon.t)
 
+  let macaroon_serialize_size_hint =
+    foreign "macaroon_serialize_size_hint" C.(const Macaroon.t @-> T.macaroon_format @-> returning size_t)
+
+  let macaroon_serialize =
+    foreign "macaroon_serialize" C.(const Macaroon.t @-> T.macaroon_format @-> (ptr char) @-> size_t @-> ptr T.return_code @-> returning size_t)
+
+  let bin2hex =
+    foreign "macaroon_bin2hex" C.(const (ptr char) @-> size_t @-> ptr char @-> returning void)
+
+  let hex2bin =
+    foreign "macaroon_hex2bin" C.(const (ptr char) @-> size_t @-> ptr char @-> returning void)
 
 end

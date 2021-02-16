@@ -4,6 +4,9 @@ module T = Libmacaroons_types.M
 
 type t = M.Verifier.t
 
+type m = M.Macaroon.t
+
+
 let create () =
   let v = M.verifier_create () in
   Gc.finalise (fun v -> M.verifier_destroy v) v;
@@ -18,12 +21,12 @@ let verify t m key =
   let res = Utils.with_error_code @@ M.verify_macaroon t m (CArray.start key') key_size ms ms_size in
   match res with
   | Ok _ -> Ok ()
-  | Error e -> Error e
+  | Error _e -> Error `Invalid
 
 let satisfy_exact t caveat =
   let caveat' = CArray.of_string caveat in
   let caveat_size = Unsigned.Size_t.of_int @@ String.length caveat in
   let res = Utils.with_error_code @@ M.verify_add_exact t (CArray.start caveat') caveat_size in
   match res with
-  | Ok _ -> Ok ()
-  | Error e -> Error e
+  | Ok _ -> Ok t
+  | Error _e -> Error `Invalid

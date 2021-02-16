@@ -1,3 +1,5 @@
+type verifier_result = [`Not_authorized | `Invalid ]
+
 module type Caveat = sig
   type t
   val create: string -> t
@@ -10,11 +12,9 @@ module type Verifier = sig
 
   val create: unit -> t
 
-  val verify: t -> m -> string -> (unit, string list) result
+  val verify: t -> m -> string -> (unit, [> `Not_authorized | `Invalid]) result
 
-  val satisfy_exact: t -> string -> (unit, string) result
-
-  val add_first_party_caveat: t -> string -> t
+  val satisfy_exact: t -> string -> (t, [> `Not_authorized | `Invalid]) result
 end
 
 
@@ -39,7 +39,7 @@ module type Macaroon = sig
 
   val serialize: t -> macaroon_format -> string
 
-  val deserialize: string -> t
+  val deserialize: string -> (t, string) result
 
   val pp: Format.formatter -> t -> unit
 

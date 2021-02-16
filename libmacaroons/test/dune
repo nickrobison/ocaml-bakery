@@ -1,4 +1,4 @@
 (test
  (name test)
- (libraries libmacaroons alcotest)
+ (libraries libmacaroons alcotest macaroons_tester)
  (deps (source_tree bakery)))
