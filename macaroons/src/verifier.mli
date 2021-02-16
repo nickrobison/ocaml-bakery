@@ -1,7 +1,3 @@
-type t
-
-val create: unit -> t
-
-val add_first_party_caveat: t -> string -> t
-
-val verify: t -> Macaroon.t -> string -> (unit, string list) result
+module Make(C: Macaroon_intf.C)(M: Macaroon_intf.M with type c = C.t): sig
+  include Macaroon_intf.V with type m = M.t
+end
