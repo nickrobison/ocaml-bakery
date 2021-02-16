@@ -17,6 +17,7 @@ depends: [
   "angstrom"
   "eqaf"
   "ppx_deriving"
+  "fmt"
   "alcotest" {with-test}
   "crowbar" {with-test}
   "ocaml" {> "4.07"}
