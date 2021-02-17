@@ -36,4 +36,4 @@ let identifier_of_string str =
   | "identitifer" -> `Identifier
   | "location" -> `Location
   | "cid" -> `Caveat
-  | s -> raise (Invalid_argument (Printf.sprintf "Unsupported identiifer: %s" s))
+  | s -> raise (Invalid_argument (Printf.sprintf "Unsupported identifier: %s" s))

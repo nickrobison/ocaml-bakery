@@ -17,7 +17,7 @@ module Make (C: Sig.Caveat)(M: Sig.Macaroon with type c = C.t)(V: Sig.Verifier w
         test_case "Simple" `Quick simple_test
       ];
       R.v;
-      (*S.v;*)
+      S.v;
       R1.v;
       V1.v;
     ]
