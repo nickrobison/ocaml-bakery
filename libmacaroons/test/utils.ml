@@ -16,26 +16,30 @@ let fail_return_code e =
 (** Helper function for adding a caveat to a verifier*)
 let add_caveat v caveat =
   match Verifier.satisfy_exact v caveat with
-  | Ok _-> ()
-  | Error e -> Alcotest.failf "Could not add caveat: %s" (Utils.return_code_to_message e)
+  | Ok v -> v
+  | Error _e -> Alcotest.failf "Could not add caveat: %s" "error"
 
 
 (** Assert that the result of a macaroon verification is unauthorized*)
 let assert_unauthorized = function
   | Ok _ -> Alcotest.fail "Should be unauthorized"
-  | Error e -> expect_variant "Should be unauthorized" `Not_Authorized e
+  | Error e -> match e with
+    | `Not_authorized -> ()
+    | `Invalid -> Alcotest.fail "Should be unauthorized, but was invalid instead"
 
 (** Helper function to deserialize a macaroon and verify it with the default root key*)
 let verify_macaroon v str k =
-  let m = unwrap_ok @@ Macaroon.deserialize str in
-  Verifier.verify v m k
+  let deser = Macaroon.deserialize str in
+  match deser with
+  | Ok m -> Verifier.verify v m k
+  | Error e -> Alcotest.failf "Cannot verify: %s" e
 
 (** Assert that the result of a macaroon verification is authorized*)
 let assert_authorized = function
   | Ok _ -> ()
-  | Error e -> fail_return_code e
+  | Error _ -> Alcotest.fail "Should be authorized"
 
 (** Run libmacaroons verification test*)
 let verifier_test m caveats fn =
-  let v = List.fold_left (fun v c -> add_caveat v c; v) (Verifier.create ()) caveats in
+  let v = List.fold_left (fun v c -> add_caveat v c) (Verifier.create ()) caveats in
   fn (verify_macaroon v m "this is the key")

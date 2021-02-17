@@ -3,6 +3,7 @@ let prefix = "macaroons_stubs"
 let prologue = "
 #include <macaroons.h>
 #include <base64.h>
+#include <port.h>
 "
 
 

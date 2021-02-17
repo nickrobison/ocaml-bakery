@@ -11,7 +11,7 @@ let encode arry =
 
 let decode str =
   let ret_sz = Unsigned.Size_t.of_int (String.length str) in
-  let ret_buffer = allocate_n uchar ~count:(String.length str) in
+  let ret_buffer = allocate_n char ~count:(String.length str) in
   let res = M.Base64.b64_pton str ret_buffer ret_sz in
   CArray.from_ptr ret_buffer res
 
