@@ -44,4 +44,6 @@ module type Macaroon = sig
   val pp: Format.formatter -> t -> unit
 
   val equal: t -> t -> bool
+
+  val valid: t -> bool
 end

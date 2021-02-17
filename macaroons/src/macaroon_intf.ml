@@ -44,6 +44,8 @@ module type M = sig
   val pp: Format.formatter -> t -> unit
 
   val equal: t -> t -> bool
+
+  val valid: t -> bool
 end
 
 module type V = sig

@@ -152,6 +152,12 @@ module Make(C: Macaroon_intf.C): Macaroon_intf.M with type c = C.t = struct
 
   let deserialize str =
     b64_decode str
+    (*TODO: We don't always need to decode twice, so we shouldn't*)
+    |> b64_decode
     |> deserialize_raw
+
+  let valid t =
+    (* A valid macaroon must have an ID and a signature*)
+    t.id <> "" && not (Cstruct.is_empty t.signature)
 
 end
