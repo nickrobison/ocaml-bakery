@@ -103,10 +103,8 @@ module Make(C: Macaroon_intf.C): Macaroon_intf.M with type c = C.t = struct
     let str = str ^ "\n" in
     match Angstrom.(parse_string ~consume:All Parser_utils.m_v1 str) with
     | Ok s -> let packets = List.map parse_packet s in
-      make_from_packets packets
-    | Error err ->
-      print_endline err;
-      raise (Invalid_argument "Can't with it, deser")
+      Ok (make_from_packets packets)
+    | Error err -> Error err
 
   let b64_encode = Base64.encode_exn ?alphabet:(Some Base64.uri_safe_alphabet) ~pad:false
 
