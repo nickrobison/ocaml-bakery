@@ -14,6 +14,7 @@ jobs:
         ocaml-version:
           - 4.08.1
           - 4.11.1
+          - 4.14.0
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
@@ -32,7 +33,7 @@ jobs:
           ocaml-version: ${{ matrix.ocaml-version }}
       - run: opam pin add libmacaroons.dev . --no-action
       - run: opam pin add bakery-macaroons.dev . --no-action
-      - run: opam depext libmacaroons bakery-macaroons --with-doc --with-test
-      - run: opam install . --deps-only --with-doc --with-test
+      - run: opam depext libmacaroons bakery-macaroons --with-test
+      - run: opam install . --deps-only --with-test
       - run: opam exec -- dune build
       - run: opam exec -- dune runtest

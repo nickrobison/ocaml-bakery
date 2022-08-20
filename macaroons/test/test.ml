@@ -7,4 +7,5 @@ module V = Verifier.Make(Caveat)(M)
 module T = Macaroons_tester.Tester.Make(Caveat)(M)(V)
 
 let () =
-  T.v ()
+let open Alcotest in
+run "Unit tests" T.v
