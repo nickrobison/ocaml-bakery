@@ -22,4 +22,5 @@ jobs:
       - run: opam depext libmacaroons 
       - run: opam install . --deps-only
       - run: opam install . -y bun crowbar base64
+      - run: opam exec -- dune build libmacaroons/fuzz/libmacaroons_fuzz.exe
       - run: opam exec -- bun _build/default/libmacaroons/fuzz/libmacaroons_fuzz.exe
